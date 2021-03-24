@@ -16,7 +16,7 @@ import glob
 from argoverse.map_representation.map_api import ArgoverseMap
 from argoverse.data_loading.argoverse_forecasting_loader import ArgoverseForecastingLoader
 
-dataset_path = 'path/to/data/folder'
+dataset_path = '/path/to/dataset/argoverse_forecasting/'
 
 val_path = os.path.join(dataset_path, 'val', 'data')
 train_path = os.path.join(dataset_path, 'train', 'data')
@@ -237,12 +237,6 @@ def get_max_min(datas):
 
 
 def process_func(putil, datas, am):
-    
-    convert_keys = (['pos' + str(i) for i in range(31)] + 
-                    ['vel' + str(i) for i in range(31)] + 
-                    ['pos_2s', 'vel_2s', 'car_mask'])
-    for key in convert_keys:
-        datas[key][0][mask] = 0
     
     city = datas['city'][0]
     x_min, x_max, y_min, y_max = get_max_min(datas)
