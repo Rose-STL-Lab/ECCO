@@ -6,7 +6,7 @@ import sys
 sys.path.append('..')
 from datasets.argoverse_pickle_loader import read_pkl_data
 from datasets.helper import get_lane_direction
-from tensorpack import dataflow
+# from tensorpack import dataflow
 import time
 import gc
 import pickle
@@ -163,33 +163,33 @@ class ArgoverseTest(object):
             dummy = np.array(['dummy' + str(i) for i in range(np.product(dummy_shape))]).reshape(dummy_shape)
         return np.concatenate([arr, dummy], axis=axis)
 
-def read_data(file_path=None,
-              batch_size=1,
-              random_rotation=False,
-              repeat=False,
-              num_workers=1, 
-              **kwargs):
+# def read_data(file_path=None,
+#               batch_size=1,
+#               random_rotation=False,
+#               repeat=False,
+#               num_workers=1, 
+#               **kwargs):
 
-    df = ArgoverseTest(
-        file_path=file_path,
-        random_rotation=random_rotation,
-        shuffle=False,
-        **kwargs
-    )
+#     df = ArgoverseTest(
+#         file_path=file_path,
+#         random_rotation=random_rotation,
+#         shuffle=False,
+#         **kwargs
+#     )
 
-    if num_workers > 1:
-        df = dataflow.MultiProcessRunnerZMQ(df, num_proc=num_workers)
+#     if num_workers > 1:
+#         df = dataflow.MultiProcessRunnerZMQ(df, num_proc=num_workers)
 
-    df = dataflow.BatchData(df, batch_size=batch_size, use_list=True)
+#     df = dataflow.BatchData(df, batch_size=batch_size, use_list=True)
 
-    df.reset_state()
-    return df
+#     df.reset_state()
+#     return df
 
 
-def read_data_test(file_path, **kwargs):
-    return read_data(file_path=file_path,
-                     num_workers=1,
-                     **kwargs)
+# def read_data_test(file_path, **kwargs):
+#     return read_data(file_path=file_path,
+#                      num_workers=1,
+#                      **kwargs)
 
     
     
@@ -277,11 +277,11 @@ if __name__ == '__main__':
     am = ArgoverseMap()
     putil = process_utils()
 
-    val_dataset = read_pkl_data(val_path, batch_size=1, shuffle=False, repeat=False)
-    dataset = read_pkl_data(train_path, batch_size=1, repeat=False, shuffle=True)
+    # val_dataset = read_pkl_data(val_path, batch_size=1, shuffle=False, repeat=False)
+    # dataset = read_pkl_data(train_path, batch_size=1, repeat=False, shuffle=True)
     # test_dataset = read_data_test(test_path, batch_size=1, repeat=False)
-    afl_train = ArgoverseForecastingLoader(os.path.join(dataset_path, 'train', 'data'))
-    afl_val = ArgoverseForecastingLoader(os.path.join(dataset_path, 'val', 'data'))
+    # afl_train = ArgoverseForecastingLoader(os.path.join(dataset_path, 'train', 'data'))
+    # afl_val = ArgoverseForecastingLoader(os.path.join(dataset_path, 'val', 'data'))
     at_train = ArgoverseTest(os.path.join(dataset_path, 'train', 'data'), max_car_num=60)
     at_val = ArgoverseTest(os.path.join(dataset_path, 'val', 'data'), max_car_num=60)
     
