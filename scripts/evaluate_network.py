@@ -150,8 +150,8 @@ def evaluate(model, val_dataset, use_lane=False,
     de3s = []
     for k, v in de.items():
         ade.append(np.mean(v.numpy()))
-        de1s.append(v.numpy()[9])
-        de2s.append(v.numpy()[19])
+        de1s.append(v.numpy()[10])
+        de2s.append(v.numpy()[20])
         de3s.append(v.numpy()[-1])
     
     result['ADE'] = np.mean(ade)

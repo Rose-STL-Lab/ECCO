@@ -277,45 +277,12 @@ if __name__ == '__main__':
     am = ArgoverseMap()
     putil = process_utils()
 
-    # val_dataset = read_pkl_data(val_path, batch_size=1, shuffle=False, repeat=False)
-    # dataset = read_pkl_data(train_path, batch_size=1, repeat=False, shuffle=True)
-    # test_dataset = read_data_test(test_path, batch_size=1, repeat=False)
-    # afl_train = ArgoverseForecastingLoader(os.path.join(dataset_path, 'train', 'data'))
-    # afl_val = ArgoverseForecastingLoader(os.path.join(dataset_path, 'val', 'data'))
+    afl_train = ArgoverseForecastingLoader(os.path.join(dataset_path, 'train', 'data'))
+    afl_val = ArgoverseForecastingLoader(os.path.join(dataset_path, 'val', 'data'))
     at_train = ArgoverseTest(os.path.join(dataset_path, 'train', 'data'), max_car_num=60)
     at_val = ArgoverseTest(os.path.join(dataset_path, 'val', 'data'), max_car_num=60)
     
-    """
-    train_num = len(dataset)
-    batch_start = time.time()
-    for i, data in enumerate(dataset):
-        if i % 1000 == 0:
-            batch_end = time.time()
-            print("SAVED ============= {} / {} ....... {}".format(i, train_num, batch_end - batch_start))
-            batch_start = time.time()
-        
-        datas = process_func(putil, data, am)
-        if datas is None:
-            continue
-        with open(os.path.join(dataset_path, 'train/lane_data3', str(datas['scene_idx'][0])+'.pkl'), 'wb') as f:
-            pickle.dump(datas, f)
-            
-    val_num = len(val_dataset)
-    batch_start = time.time()
-    for i, data in enumerate(val_dataset):
-        if i % 1000 == 0:
-            batch_end = time.time()
-            print("SAVED ============= {} / {} ....... {}".format(i, val_num, batch_end - batch_start))
-            batch_start = time.time()
-        
-        datas = process_func(putil, data, am)
-        if datas is None:
-            continue
-        with open(os.path.join(dataset_path, 'val/lane_data3', str(datas['scene_idx'][0])+'.pkl'), 'wb') as f:
-            pickle.dump(datas, f)
     
-    """
-    # existing_files = glob.glob(os.path.join(dataset_path, 'train/lane_data'))
     print("++++++++++++++++++++ START TRAIN ++++++++++++++++++++")
     train_num = len(afl_train)
     batch_start = time.time()
