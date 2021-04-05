@@ -47,8 +47,8 @@ class ArgoverseTest(object):
 
         data, city = self.afl[scene].seq_df, self.afl[scene].city
 
-        lane = np.array([[0., 0., 0.]], dtype=np.float32)
-        lane_drct = np.array([[0., 0., 0.]], dtype=np.float32)
+        lane = np.array([[0., 0.]], dtype=np.float32)
+        lane_drct = np.array([[0., 0.]], dtype=np.float32)
 
 
         tstmps = data.TIMESTAMP.unique()
@@ -75,13 +75,13 @@ class ArgoverseTest(object):
         pos_enc = [subdf[['X', 'Y']].values[np.newaxis,:] 
                    for _, subdf in data[data['TIMESTAMP'].isin(tstmps[:19])].groupby('TRACK_ID')]
         pos_enc = np.concatenate(pos_enc, axis=0)
-        pos_enc = self._expand_dim(pos_enc)
+        # pos_enc = self._expand_dim(pos_enc)
         feat_dict['pos_2s'] = self._expand_particle(pos_enc, self.max_car_num, 0)
 
         vel_enc = [subdf[['vel_x', 'vel_y']].values[np.newaxis,:] 
                    for _, subdf in data[data['TIMESTAMP'].isin(tstmps[:19])].groupby('TRACK_ID')]
         vel_enc = np.concatenate(vel_enc, axis=0)
-        vel_enc = self._expand_dim(vel_enc)
+        # vel_enc = self._expand_dim(vel_enc)
         feat_dict['vel_2s'] = self._expand_particle(vel_enc, self.max_car_num, 0)
 
         pos = data[data['TIMESTAMP'] == tstmps[19]][['X', 'Y']].values
@@ -162,35 +162,6 @@ class ArgoverseTest(object):
         if value_type == 'str':
             dummy = np.array(['dummy' + str(i) for i in range(np.product(dummy_shape))]).reshape(dummy_shape)
         return np.concatenate([arr, dummy], axis=axis)
-
-# def read_data(file_path=None,
-#               batch_size=1,
-#               random_rotation=False,
-#               repeat=False,
-#               num_workers=1, 
-#               **kwargs):
-
-#     df = ArgoverseTest(
-#         file_path=file_path,
-#         random_rotation=random_rotation,
-#         shuffle=False,
-#         **kwargs
-#     )
-
-#     if num_workers > 1:
-#         df = dataflow.MultiProcessRunnerZMQ(df, num_proc=num_workers)
-
-#     df = dataflow.BatchData(df, batch_size=batch_size, use_list=True)
-
-#     df.reset_state()
-#     return df
-
-
-# def read_data_test(file_path, **kwargs):
-#     return read_data(file_path=file_path,
-#                      num_workers=1,
-#                      **kwargs)
-
     
     
 class process_utils(object):
@@ -212,7 +183,7 @@ class process_utils(object):
 def get_max_min(datas):
     mask = datas['car_mask']
     slicer = mask[0].astype(bool).flatten()
-    pos_keys = (['pos0'] + ['pos_2s'])
+    pos_keys = ['pos0'] + ['pos_2s']
     max_x = np.concatenate([np.max(np.stack(datas[pk])[0,slicer,...,0]
                                    .reshape(np.stack(datas[pk]).shape[0], -1), 
                                    axis=-1)[...,np.newaxis]
@@ -262,9 +233,9 @@ def process_func(putil, datas, am):
             lane_directions.append(lane_drct)
     if len(lane_centerlines) > 0:
         lane = np.concatenate(lane_centerlines, axis=0)
-        lane = putil.expand_dim(lane)
+        # lane = putil.expand_dim(lane)
         lane_drct = np.concatenate(lane_directions, axis=0)
-        lane_drct = putil.expand_dim(lane_drct)[...,:3]
+        # lane_drct = putil.expand_dim(lane_drct)[...,:3]
 
         datas['lane'] = [lane]
         datas['lane_norm'] = [lane_drct]

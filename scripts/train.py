@@ -185,7 +185,7 @@ def train():
                             ['pos_2s', 'vel_2s', 'lane', 'lane_norm'])
 
             for k in convert_keys:
-                batch_tensor[k] = torch.tensor(np.stack(batch[k])[...,:2], dtype=torch.float32, device=device)
+                batch_tensor[k] = torch.tensor(np.stack(batch[k]), dtype=torch.float32, device=device)
 
             for k in ['car_mask', 'lane_mask']:
                 batch_tensor[k] = torch.tensor(np.stack(batch[k]), dtype=torch.float32, device=device).unsqueeze(-1)
