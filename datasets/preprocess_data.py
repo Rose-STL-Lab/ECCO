@@ -54,9 +54,7 @@ class ArgoverseTest(object):
         tstmps = data.TIMESTAMP.unique()
         tstmps.sort()
 
-        data = self._filter_imcomplete_data(data, tstmps, 20)
-        data = self._expand_df(data, city)
-        data = self._linear_interpolate(data)
+        data = self._filter_imcomplete_data(data, tstmps, 50)
 
         data = self._calc_vel(data, self.freq)
 

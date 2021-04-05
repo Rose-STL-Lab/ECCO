@@ -9,6 +9,7 @@ import pickle
 import argparse
 from evaluate_network import evaluate
 from argoverse.map_representation.map_api import ArgoverseMap
+from datasets.argoverse_lane_loader import read_pkl_data
 from train_utils import *
 
 import torch
@@ -21,7 +22,6 @@ parser = argparse.ArgumentParser(description="Training setting and hyperparamete
 parser.add_argument('--cuda_visible_devices', default='0,1,2,3')
 parser.add_argument('--dataset_path', default='/home/leo/particle/argoverse/argoverse_forecasting/', 
                     help='path to dataset folder, which contains train and val folders')
-parser.add_argument('--not_use_lane', default=True, action='store_false', help='forbid the usage of map')
 parser.add_argument('--train_window', default=4, type=int, help='how many timestamps to iterate in training')
 parser.add_argument('--batch_divide', default=1, type=int, 
                     help='divide one batch into several packs, and train them iterativelly.')
@@ -50,15 +50,9 @@ model_name = args.model_name
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-if args.use_lane:
-    from datasets.argoverse_lane_loader import read_pkl_data
-    val_path = os.path.join(args.dataset_path, 'val', 'lane_data')
-    train_path = os.path.join(args.dataset_path, 'train', 'lane_data')
-else:
-    from datasets.argoverse_pickle_loader import read_pkl_data
-    val_path = os.path.join(args.dataset_path, 'val', 'clean_data')
-    train_path = os.path.join(args.dataset_path, 'train', 'clean_data')
-
+val_path = os.path.join(args.dataset_path, 'val', 'lane_data')
+train_path = os.path.join(args.dataset_path, 'train', 'lane_data')
+    
 def create_model():
     if args.representation:
         from models.rho_reg_ECCO import ECCONetwork
@@ -174,10 +168,7 @@ def train():
             
             batch_size = len(batch['pos0'])
 
-            if args.use_lane:
-                pass
-            else:
-                batch['lane_mask'] = [np.array([0])] * args.batch_size
+            batch['lane_mask'] = [np.array([0])] * args.batch_size
 
             batch_tensor = {}
             convert_keys = (['pos' + str(i) for i in range(args.train_window + 1)] + 
