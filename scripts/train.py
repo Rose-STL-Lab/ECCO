@@ -20,7 +20,7 @@ import torch.nn.functional as F
 
 parser = argparse.ArgumentParser(description="Training setting and hyperparameters")
 parser.add_argument('--cuda_visible_devices', default='0,1,2,3')
-parser.add_argument('--dataset_path', default='/home/leo/particle/argoverse/argoverse_forecasting/', 
+parser.add_argument('--dataset_path', default='/path/to/argoverse_forecasting/', 
                     help='path to dataset folder, which contains train and val folders')
 parser.add_argument('--train_window', default=4, type=int, help='how many timestamps to iterate in training')
 parser.add_argument('--batch_divide', default=1, type=int, 
@@ -230,8 +230,6 @@ def train():
             min_loss = valid_losses[-1] 
             best_model = model
             torch.save(model.module, model_name + ".pth")
-
-            #Add evaluation Metrics
 
         epoch_end_time = time.time()
 
