@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 from abc import ABCMeta, abstractmethod
+from EquiLinear import *
 
 
 class EquiCtsConvBase(nn.Module, metaclass=ABCMeta):
@@ -199,7 +200,7 @@ class EquiCtsConvBase(nn.Module, metaclass=ABCMeta):
     ):
         out = self.ContinuousConv(
             field, center, field_feat, field_mask, 
-            ctr_feat, normalize_attention
+            ctr_feat
         )
         return out
     
