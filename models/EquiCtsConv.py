@@ -15,25 +15,6 @@ class EquiCtsConvBase(nn.Module, metaclass=ABCMeta):
     def computeKernel(self):
         pass
     
-    @abstractmethod
-    def GenerateKernelBasis(self):
-        pass
-    
-    @abstractmethod
-    def GenerateKernelBasisElement(self):
-        pass
-    
-    @abstractmethod
-    def GenerateKernelBasisElementColumn(self):
-        pass
-    @abstractmethod
-    def GenerateKernelBullseyeElement(self):
-        pass
-    
-    @abstractmethod
-    def GenerateKernelBullseyeElementColumn(self):
-        pass
-                  
     def GetAttention(self, relative_field):
         r = torch.sum(relative_field ** 2, axis=-1)
         return torch.relu((1 - r) ** 3).unsqueeze(-1)
