@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import sys
 sys.path.append('..')
-from datasets.argoverse_pickle_loader import read_pkl_data
 from datasets.helper import get_lane_direction
 # from tensorpack import dataflow
 import time
@@ -255,7 +254,7 @@ if __name__ == '__main__':
     print("++++++++++++++++++++ START TRAIN ++++++++++++++++++++")
     train_num = len(afl_train)
     batch_start = time.time()
-    os.mkdir(os.path.join(dataset_path, 'train/lane_data')
+    os.mkdir(os.path.join(dataset_path, 'train/lane_data'))
     for i, scene in enumerate(range(train_num)):
         if i % 1000 == 0:
             batch_end = time.time()
@@ -270,7 +269,7 @@ if __name__ == '__main__':
     print("++++++++++++++++++++ START VAL ++++++++++++++++++++")
     val_num = len(afl_val)
     batch_start = time.time()
-    os.mkdir(os.path.join(dataset_path, 'val/lane_data')
+    os.mkdir(os.path.join(dataset_path, 'val/lane_data'))
     for i, scene in enumerate(range(val_num)):
         if i % 1000 == 0:
             batch_end = time.time() 
