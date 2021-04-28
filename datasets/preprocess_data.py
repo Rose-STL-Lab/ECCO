@@ -83,10 +83,10 @@ class ArgoverseTest(object):
         feat_dict['vel_2s'] = self._expand_particle(vel_enc, self.max_car_num, 0)
 
         pos = data[data['TIMESTAMP'] == tstmps[19]][['X', 'Y']].values
-        pos = self._expand_dim(pos)
+        # pos = self._expand_dim(pos)
         feat_dict['pos0'] = self._expand_particle(pos, self.max_car_num, 0)
         vel = data[data['TIMESTAMP'] == tstmps[19]][['vel_x', 'vel_y']].values
-        vel = self._expand_dim(vel)
+        # vel = self._expand_dim(vel)
         feat_dict['vel0'] = self._expand_particle(vel, self.max_car_num, 0)
         track_id =  data[data['TIMESTAMP'] == tstmps[19]]['TRACK_ID'].values
         feat_dict['track_id0'] = self._expand_particle(track_id, self.max_car_num, 0, 'str')
@@ -94,10 +94,10 @@ class ArgoverseTest(object):
         
         for t in range(31):
             pos = data[data['TIMESTAMP'] == tstmps[19 + t]][['X', 'Y']].values
-            pos = self._expand_dim(pos)
+            # pos = self._expand_dim(pos)
             feat_dict['pos' + str(t)] = self._expand_particle(pos, self.max_car_num, 0)
             vel = data[data['TIMESTAMP'] == tstmps[19 + t]][['vel_x', 'vel_y']].values
-            vel = self._expand_dim(vel)
+            # vel = self._expand_dim(vel)
             feat_dict['vel' + str(t)] = self._expand_particle(vel, self.max_car_num, 0)
             track_id =  data[data['TIMESTAMP'] == tstmps[19 + t]]['TRACK_ID'].values
             feat_dict['track_id' + str(t)] = self._expand_particle(track_id, self.max_car_num, 0, 'str')
