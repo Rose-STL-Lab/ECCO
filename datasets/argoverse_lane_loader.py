@@ -13,7 +13,7 @@ class ArgoverseDataset(IterableDataset):
         super(ArgoverseDataset, self).__init__()
         self.data_path = data_path
         self.transform = transform
-        self.pkl_list = glob.glob(os.path.join(self.data_path, '*'))
+        self.pkl_list = glob(os.path.join(self.data_path, '*'))
         if shuffle:
             np.random.shuffle(self.pkl_list)
         else:
