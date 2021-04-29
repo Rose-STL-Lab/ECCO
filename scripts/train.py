@@ -168,8 +168,6 @@ def train():
             
             batch_size = len(batch['pos0'])
 
-            batch['lane_mask'] = [np.array([0])] * args.batch_size
-
             batch_tensor = {}
             convert_keys = (['pos' + str(i) for i in range(args.train_window + 1)] + 
                             ['vel' + str(i) for i in range(args.train_window + 1)] + 
