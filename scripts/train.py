@@ -83,7 +83,7 @@ def train():
 
     val_dataset = read_pkl_data(val_path, batch_size=args.val_batch_size, shuffle=True, repeat=False, max_lane_nodes=700)
 
-    dataset = read_pkl_data(train_path, batch_size=args.batch_size / args.batch_divide, 
+    dataset = read_pkl_data(train_path, batch_size=args.batch_size // args.batch_divide, 
                             repeat=True, shuffle=True, max_lane_nodes=900)
 
     data_iter = iter(dataset)   
@@ -213,11 +213,11 @@ def train():
 
         model.eval()
         with torch.no_grad():
-            valid_total_loss, valid_metrics = evaluate(model.module, val_dataset, am=am, 
+            valid_total_loss, valid_metrics = evaluate(model.module, val_dataset, 
                                                        train_window=args.train_window, 
                                                        max_iter=args.val_batches, 
-                                                       device=device, use_lane=args.use_lane, 
-                                                       batch_size=val_dataset.batch_size)
+                                                       device=device, 
+                                                       batch_size=args.val_batch_size)
 
         valid_losses.append(float(valid_total_loss))
         valid_metrics_list.append(valid_metrics)
@@ -251,9 +251,10 @@ def evaluation():
     trained_model.eval()
     
     with torch.no_grad():
-        valid_total_loss, valid_metrics = evaluate(trained_model, val_dataset, am=am, 
+        valid_total_loss, valid_metrics = evaluate(trained_model, val_dataset, 
                                                    train_window=args.train_window, max_iter=len(val_dataset), 
-                                                   device=device, start_iter=args.val_batches, use_lane=args.use_lane)
+                                                   device=device, start_iter=args.val_batches, use_lane=args.use_lane,
+                                                   batch_size=args.val_batch_size)
     
     with open('results/{}_predictions.pickle'.format(model_name), 'wb') as f:
         pickle.dump(valid_metrics, f)

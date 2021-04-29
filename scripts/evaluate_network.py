@@ -20,8 +20,7 @@ def get_agent(pr, gt, pr_id, gt_id, agent_id, device='cpu'):
     return pr_agent, gt_agent
 
 
-def evaluate(model, val_dataset, use_lane=False,
-             train_window=3, max_iter=2500, device='cpu', start_iter=0, 
+def evaluate(model, val_dataset, train_window=3, max_iter=2500, device='cpu', start_iter=0, 
              batch_size=32):
     
     print('evaluating.. ', end='', flush=True)
@@ -46,11 +45,6 @@ def evaluate(model, val_dataset, use_lane=False,
             print('{}'.format(count + 1), end=' ', flush=True)
         
         count += 1
-        
-        if use_lane:
-            pass
-        else:
-            sample['lane_mask'] = [np.array([0])] * batch_size
         
         data = {}
         convert_keys = (['pos' + str(i) for i in range(31)] + 
