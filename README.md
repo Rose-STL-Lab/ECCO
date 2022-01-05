@@ -30,19 +30,21 @@ The data will be stored in `path/to/argoverse_forecasting/train(val)/lane_data`.
 
 If you want to skip the data generation part, the link to preprocessed data will be provided soon.
 
-## Model Training
+## Model Training and Evaluation
 
-Here are commands for training the model.
+Here are commands to train the model. The evaluation will be provided after the model is trained. 
 
 For <img src="https://render.githubusercontent.com/render/math?math=\rho_1">-ECCO, run the following command
 ```bash
-python train.py --dataset_path /path/to/argoverse_forecasting/ --rho1 --model_name rho_1_ecco 
+python train.py --dataset_path /path/to/argoverse_forecasting/ --rho1 --model_name rho_1_ecco --train --evaluation
 ```
 
 For <img src="https://render.githubusercontent.com/render/math?math=\rho_{reg}">-ECCO, run the following command
 ```bash
-python train.py --dataset_path /path/to/argoverse_forecasting/ --rho-reg --model_name rho_1_ecco 
+python train.py --dataset_path /path/to/argoverse_forecasting/ --rho-reg --model_name rho_1_ecco --train --evaluation
 ```
+
+For the baseline evaluation, you can refer to [Argoverse Official Baseline](https://github.com/jagjeet-singh/argoverse-forecasting). Note: the evaluation of the constant velocity is evaluated on the validation set (filtered out the scenes with car number greater than 60) with the velocity at final timestamp as the constant velocity. 
 
 ## Citation
 
